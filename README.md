@@ -80,14 +80,29 @@ The express instance in which is running the server. You can use all the express
 
 #### dbc 
 The mongo database controller ErnestDB which hace the following methods:
+
 ```js
-InsertInCollection (data,collec,callback) 				
 
-InsertInCollectionBy (data,collec,insertedBy,callback) 	
+dbc.InsertInCollection (data,collec,function()
+{
+	//callback();
+})
 
-FindOneInCollection	(data,collec,callback)				
+//inserted by user;
+dbc.InsertInCollectionBy (data,collec,insertedBy,function()
+{
+	//callback();
+})
 
-FindInCollection (data,collec,callback)					
+dbc.FindOneInCollection (data,collec,function(data)
+{
+	//callback(data);
+})	
+
+dbc.FindInCollection (data,collec,function(data_array)
+{
+	//callback(data_array);
+})				
 	
 FindProyectInCollection	(data,proy,collec,callback)		
 
