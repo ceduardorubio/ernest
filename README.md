@@ -85,73 +85,137 @@ The mongo database controller ErnestDB which hace the following methods:
 
 dbc.InsertInCollection (data,collec,function()
 {
-	//callback();
+	res.json({});
 })
 
 //inserted by user;
 dbc.InsertInCollectionBy (data,collec,insertedBy,function()
 {
-	//callback();
-})
+	res.json({});
+});
 
-dbc.FindOneInCollection (data,collec,function(data)
+//find one element by crit in collec
+dbc.FindOneInCollection (crit,collec,function(data)
 {
-	//callback(data);
-})	
+	res.json(data);
+});	
 
-dbc.FindInCollection (data,collec,function(data_array)
+//find all elements by crit in collec
+dbc.FindInCollection (crit,collec,function(data_array)
 {
-	//callback(data_array);
-})				
+	res.json(data_array);
+});				
+
+//find all and return one particular array element in selected documents.
+dbc.FindProyectInCollection	(crit,proj,collec,function(data_array)
+{
+	res.json(data_array);
+});						
+
+//find one and return only the selected properties
+dbc.FindOneInCollMostrar 	(crit,mostrar,collec,function(data)
+{
+	res.json(data);
+});						
+
+//find all and return only the selected properties
+dbc.FindInCollecMostrar	(crit,mostrar,collec,function(data_array)
+{
+	res.json(data_array);
+});						
+
+//update one document that matches crit in the collection collec
+dbc.UpdateOneinCollec (crit,set,collec,function()
+{
+	res.json({});
+});				 			
+
+//update one document that matches crit in the collection collec. Save the user in changedBy	
+dbc.UpdateOneinCollecBy (crit,set,collec,changedBy,function()
+{
+	res.json({});
+});				
+
+//update many documents that match crit in the collection collec. 
+dbc.UpdateManyinCollec (crit,set,collec,function()
+{
+	res.json({});
+});				 			
+
+//delete the documents that match the crit in the collection collec	
+dbc.DeleteFromCollection (crit,collec,function()
+{
+	res.json({});
+});				 			
+
+//Find all documents that match the criteria crit, sorts the array of documents and limits the array
+dbc.FindSortLimInCollect (crit,order,lim,collec,function(data_array)
+{
+	res.json(data_array);
+});				 	
+
+//Find all documents that match the criteria crit, sorts the array of documents and limits the array
 	
-FindProyectInCollection	(data,proy,collec,callback)		
+dbc.FindSortInCollection (crit,order,collec,function(data_array)
+{
+	res.json(data_array);
+});				 		
 
-FindOneInCollMostrar (data,mostrar,collec,callback)		
+//Executes an aggregation on collect
+dbc.AggregatetoArray (agg_arry,collec,function(data_array)
+{
+	res.json(data_arry);
+});				 			
 
-FindInCollecMostrar	(data,mostrar,collec,callback)		
+//Return all documents distincs on query that match the crit
+dbc.GetDistincts (crit,query,collec,function(data_array)
+{
+	res.json(data_array);
+});				 				
 
-UpdateOneinCollec (crit,set,collec,callback) 			
+//Return all collection names
+dbc.getCollectionNames (function(data_array)
+{
+	res.json(data_array);
+});											
+
+//Return the collection mongojs obj
+dbc.GetCollection (collec)								
+
+//Renames the collection
+dbc.RenameCollection (oldcollec,newcollec,function()
+{
+	res.json({});
+});						
+
+//Creates the collection collec
+dbc.CreateCollection (collec,function()
+{
+	res.json({});
+});									
+
+//Drops the collections collec
+dbc.DropCollection (collec,function()
+{
+	res.json({});
+});									
 	
-UpdateOneinCollecBy (crit,set,collec,changedBy,callback)
-	
-UpdateManyinCollec (crit,set,collec,callback) 			
-	
-DeleteFromCollection (crit,collec,callback) 			
+//Empty the collection collec
+dbc.EmptyCollection	(collec,function()
+{
+	res.json({});
+});									
 
-FindSortLimInCollect (crit,order,lim,collec,callback) 	
-	
-FindSortInCollection (crit,order,collec,callback) 		
+//Erase the collections in Erase Arry
+dbc.EraseCollections (erase,function()
+{
+	res.json({});
+});				 					
 
-AggregatetoArray (agg_arry,collec,callback) 			
-
-GetDistincts (crit,query,collec,callback) 				
-
-getCollectionNames (callback)							
-
-GetCollection (collec)								
-
-RenameCollection (oldcollec,newcollec,callback)		
-
-CreateCollection (collec,callback)					
-
-DropCollection (collec,callback)					
-	
-EmptyCollection	(collec,callback)					
-
-EraseCollections (erase,callback) 					
-
-CloneCollection	(src,dst,callback)					
+//Creates a clone of the collection src, with the name dst
+dbc.CloneCollection	(src,dst,function()
+{
+	res.json({});
+});									
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
+## README in edition
