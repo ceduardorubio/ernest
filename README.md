@@ -1,5 +1,5 @@
 # ernest
-### Web framework, using expressjs and mongojs
+### Web framework for HTTP and HTTPS, using ExpressJS, Session, Mongo, Socket IO, Redis 
 
 Just create a public folder inside your project directory, put your files inside and do this:
 ```js
@@ -11,9 +11,11 @@ And your server is running on PORT:80 (http), loading your "public" folder.
 If you are trying something bigger:
 ```js
 var Ernest = require('ernest');
-var srv = new Ernest(db_name,ipublic,iport,jsonlimt_mb,session_name,session_secret).listen(allowothersite).ServerData();
+var srv = new Ernest(db_name,ipublic,iport,jsonlimt_mb,session_name,session_secret).listen(otherorigins,key,cert,socketio_redis_port, isocketio_redis_server).ServerData();
+
 var app = srv.app;
 var dbc = srv.dbc;
+var msg = srv.messenger_io;
 
 app.get("/hiernest",function(req,res,next)
 {
@@ -33,6 +35,11 @@ app.get("/allcollectionelements",function(req,res,next)
 	{
 		res.send("No DB connection");
 	}
+});
+
+svr.console(function(command,att,content)
+{	
+	callback(command,att,content);
 });
 ```
 
@@ -72,11 +79,75 @@ this function starts the service
 If is set(as true) will allow cross site request
 by default disabled
 
+#### key
+
+The path to the file ".pem" (key.pem) of ssl certificate. If is set, enables https.
+By default is undefined and disable https.
+
+#### cert
+The path to the file ".crt" (server.crt) of ssl certificate. If kep aparameter is set, ermest looks for it and enables https.
+By default is undefined and disable https.
+
+#### socketio_redis_port
+If is set, enables socket_io with redis for asincronic real time communication.
+this parameter is the port where redis server is running.
+Dont forget, for using this option you have to start your Redis Server and put these scripts on your header html files:
+```js
+<script src="/socket.io/socket.io.js"></script>
+<script > var socket = io(); socket.on('disconnect', function () { alert('Server unreachable');});
+```
+By default is undefined and disable the socket_io system.
+
+#### isocketio_redis_server
+If socketio_redis_port is set, this parameter is the redis server ip. By default, is set as "localhost"
+
 ### ServerData
 Return and object with two properties:
 
 #### app
 The express instance in which is running the server. You can use all the express methods (post,get, use, etc)
+
+### messenger_io
+Contains the function for emit messages through socket.io.
+For emiting a new message you can use:
+```js
+var msg = srv.messenger_io;
+
+//async
+	...
+	...
+	msg.call(this,type_msg,content);
+```
+this: "this" golbal object current scope. (this serves as an identity function, providing our neighborhoods a way of referring to themselves.).
+type_msg: String. Word the socket.io on client side will be waiting for emition
+content: String.String that receives socket.io on client site when type_msg is emitted 
+
+### console
+This is an interface for implementing a user command prompt system. 
+After the ernest service is running, it reads everything that is written on node prompt, and if it begins with "e.", is considered a command:
+By example, if you write in the node prompt this line:
+```js
+e.msg admin hello world!
+```
+and having these function on your main script
+```js
+srv.console(function(cmd, att, content)
+{
+	if( cmd == "msg")
+	{
+		var type_msg = att;
+		msg.call(this,type_msg,content);
+	}
+	else
+	{
+		console.log("Invalid Ernest command");
+	}
+});
+```
+Ernest will red "msg" as command, "admin" as attribute and "hello world!" as content
+and will emit a message through socket.io using msg.call(this,type,message);
+
+
 
 #### dbc 
 The mongo database controller ErnestDB which hace the following methods:
@@ -218,4 +289,5 @@ dbc.CloneCollection	(src,dst,function()
 	res.json({});
 });									
 ```
+
 ## README in edition
